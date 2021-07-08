@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.arknightsdemo.mapper.PostMapper">
+
+    <resultMap id="allPostMap" type="com.example.arknightsdemo.dto.PostDTO">
+        <id column="id" property="id"></id>
+        <result column="username" property="username"></result>
+        <result column="title" property="title"></result>
+        <result column="content" property="content"></result>
+        <result column="category" property="category"></result>
+        <result column="createdAt" property="createdAt" jdbcType="TIMESTAMP"></result>
+        <result column="updatedAt" property="updatedAt" jdbcType="TIMESTAMP"></result>
+        <result column="floorsum" property="floorsum"></result>
+    </resultMap>
+
+
+    <select id="selectPageDTO" resultMap="allPostMap">
+        SELECT p.id as id,p.title as title,p.content as content,p.created_at as createdAt,p.updated_at as updatedAt,p.category as category,count(r.content) as floorsum,u.username as username
+        FROM post as p
+        left JOIN reply as r on p.postid = r.postid
+        INNER JOIN user as u on p.userid = u.userid
+        where p.deleted = 0
+        GROUP BY p.postid;
+    </select>
+
+</mapper>

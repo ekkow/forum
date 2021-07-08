@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.arknightsdemo.mapper.ReplyMapper">
+
+    <resultMap id="allReplyMap" type="com.example.arknightsdemo.dto.ReplyDTO">
+        <id column="id" property="id"></id>
+        <result column="username" property="username"></result>
+        <result column="content" property="content"></result>
+        <result column="floor" property="floor"></result>
+        <result column="createdAt" property="createdAt"></result>
+        <result column="updatedAt" property="updatedAt"></result>
+    </resultMap>
+
+    <select id="selectPageDTO" resultMap="allReplyMap">
+        select r.id as id,u.username as username,r.content as content,r.floor as floor,r.created_at as createdAt,r.updated_at as updatedAt
+        FROM reply as r
+        left join user as u on r.userid = u.userid
+        where r.postid = #{postid}
+    </select>
+
+</mapper>
